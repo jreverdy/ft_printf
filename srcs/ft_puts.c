@@ -1,41 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr_base.c                                   :+:      :+:    :+:   */
+/*   ft_puts.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jereverd <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/23 18:55:06 by jereverd          #+#    #+#             */
-/*   Updated: 2021/11/17 14:45:45 by jereverd         ###   ########lyon.fr   */
+/*   Created: 2021/11/18 11:33:25 by jereverd          #+#    #+#             */
+/*   Updated: 2021/11/18 11:33:26 by jereverd         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#include "ft_printf.h"
 
-int	ft_baselenght(char *base)
+void	ft_puts(va_list list, int *nb)
 {
-	int	i;
+	char	*str;
 
-	i = 0;
-	while (base[i])
-		i++;
-	return (i);
-}
-
-void	ft_putnbr_base(unsigned long int nbr, char *base, int *nb)
-{
-	unsigned long int	number;
-	unsigned long int 	i;
-
-	i = ft_baselenght(base);
-
-	number = nbr;
-	if (nbr < 0)
-		number *= -1;
-	if (number >= i)
+	str = va_arg(list, char *);
+	if (!str)
 	{
-		ft_putnbr_base(number / i, base, nb);
-		number = number % i;
+		*nb += write(1, "(null)", 6);
+		return ;
 	}
-	*nb += write(1, &base[number], 1);
+	*nb += write(1, str, ft_strlen(str));
 }
